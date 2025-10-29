@@ -29,3 +29,26 @@ clean : FORCE_MAKE
 cleanall : FORCE_MAKE
 	$(LATEXMK) -C $(MAIN).tex
 	$(LATEXMK) -C swuthesis/swuthesis-doc.tex
+
+# 获取版本号（从 swuthesis.cls 或 git tag）
+VERSION = $(shell grep -o 'swuthesisversion{[^}]*' swuthesis/swuthesis.cls | sed 's/swuthesisversion{//' | head -1 || git describe --tags --always --dirty 2>/dev/null | sed 's/^v//' || echo "dev")
+
+# 生成发布用的 zip 文件
+zip : clean
+	@echo "创建发布包 swuthesis-v$(VERSION).zip..."
+	@rm -rf swuthesis-release
+	@mkdir -p swuthesis-release
+	@cp -r swuthesis/* swuthesis-release/ 2>/dev/null || true
+	@cp README-SWU.md swuthesis-release/README.md
+	@cp LICENSE swuthesis-release/ 2>/dev/null || true
+	@find swuthesis-release -name ".DS_Store" -delete
+	@find swuthesis-release -name "*.pdf" -path "*/test*" -delete
+	@cd swuthesis-release && zip -r ../swuthesis-v$(VERSION).zip . -x "*.DS_Store" "test/**/*"
+	@rm -rf swuthesis-release
+	@echo "发布包已生成: swuthesis-v$(VERSION).zip"
+
+# 完整发布流程：编译文档并生成 zip
+release : swudoc zip
+	@echo "发布包已准备完成！"
+	@echo "1. 上传 swuthesis-v$(VERSION).zip 到 GitHub Releases"
+	@echo "2. 标签: v$(VERSION)"
