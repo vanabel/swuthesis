@@ -11,7 +11,17 @@
 make              # 编译生成 main.pdf
 make clean        # 清理临时文件
 make cleanall     # 清理所有编译文件
+make version      # 查看当前版本号
+make zip          # 生成发布包
+make release      # 完整发布流程
 ```
+
+### 版本号
+
+使用 `make version` 查看当前版本号。版本号从 `swuthesis.cls` 文件中自动读取，优先级：
+1. `swuthesis.cls` 中的版本号定义
+2. Git 标签（如果 cls 中没有定义）
+3. 默认值 "dev"
 
 ### 从 swuthesis 子目录编译
 

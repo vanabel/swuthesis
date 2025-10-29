@@ -11,6 +11,9 @@
 make              # 编译生成 main.pdf
 make clean        # 清理临时文件
 make cleanall     # 清理所有编译文件
+make version      # 查看当前版本号
+make zip          # 生成发布包（zip 文件）
+make release      # 完整发布流程（编译文档 + 生成 zip）
 ```
 
 或者直接使用 `latexmk`：
@@ -74,6 +77,36 @@ xelatex main.tex    # 第三次编译，更新交叉引用
 ```
 
 使用 `latexmk` 或 `make` 会自动完成以上步骤。
+
+## 版本管理
+
+### 查看版本号
+
+```bash
+make version
+```
+
+这会显示当前版本号和版本来源：
+```
+当前版本号: 3.3.4
+来源: swuthesis.cls
+```
+
+### 版本号来源
+
+版本号按以下优先级获取：
+1. **swuthesis.cls 文件**（优先级最高）- 从模板类文件中读取版本号定义
+2. **Git 标签** - 如果 cls 文件中没有定义，则使用最新的 git tag
+3. **默认值 "dev"** - 如果前两者都不可用
+
+### 修改版本号
+
+在 `swuthesis/swuthesis.cls` 文件中修改：
+```latex
+\newcommand\swuthesisversion{3.3.4}  % 修改为你想要的版本号
+```
+
+Makefile 会自动从该文件读取版本号用于生成发布包。
 
 ## 论文要求
 
