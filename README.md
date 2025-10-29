@@ -1,14 +1,40 @@
-# 中国科学技术大学学位论文 LaTeX 模板
+# 学位论文 LaTeX 模板合集
 
-[![GitHub release](https://img.shields.io/github/release/ustctug/ustcthesis/all.svg)](https://github.com/ustctug/ustcthesis/releases/latest)
-[![GitHub commits](https://img.shields.io/github/commits-since/ustctug/ustcthesis/latest.svg)](https://github.com/ustctug/ustcthesis/commits/master)
-[![Test](https://github.com/ustctug/ustcthesis/actions/workflows/test.yml/badge.svg)](https://github.com/ustctug/ustcthesis/actions/workflows/test.yml)
+本项目包含：
 
-本项目是中国科学技术大学的学位论文 LaTeX 模板 ustcthesis，按照
+- **西南大学本科毕业论文模板**（默认使用，见 `main.tex`）
+- **中国科学技术大学学位论文模板**（USTC 版本）
+
+## 西南大学本科毕业论文模板
+
+### 快速编译
+
+```bash
+make              # 编译生成 main.pdf
+make clean        # 清理临时文件
+```
+
+### 模板特点
+
+- 符合西南大学本科毕业论文规范化要求
+- 页边距：A4 纸，四边 2.5cm
+- 页码：阿拉伯数字，居中，无页眉
+- 行距：正文部分 1.5 倍行距
+- 参考文献：本科生著录格式
+
+详细使用方法请查看 [README-SWU.md](README-SWU.md)。
+
+---
+
+## 中国科学技术大学学位论文模板（USTC）
+
+本项目包含中国科学技术大学的学位论文 LaTeX 模板 ustcthesis，按照
 研究生《[学位论文撰写模板](https://gradschool.ustc.edu.cn/column/65)》（2024-12-05）
 和
 《[中国科学技术大学本科毕业论文（设计）格式](https://www.teach.ustc.edu.cn/?attachment_id=13867)》
 的要求编写，兼容最新版的 TeX Live、MacTeX 、MiKTeX 发行版，支持跨平台使用。
+
+[![GitHub release](https://img.shields.io/github/release/ustctug/ustcthesis/all.svg)](https://github.com/ustctug/ustcthesis/releases/latest)
 
 注意：
 

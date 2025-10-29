@@ -2,44 +2,43 @@
 % !TeX program = xelatex
 % !TeX spellcheck = en_US
 
-\documentclass[degree=doctor]{ustcthesis}
+% 西南大学本科毕业论文模板
+\documentclass[degree=bachelor]{swuthesis/swuthesis}
 % degree      = doctor | master | bachelor
-% degree-type = academic | professional | engineering
+% degree-type = academic | professional
 % language    = chinese | english
 % fontset     = windows | mac | ubuntu | fandol
 
 % 加载宏包、全部的配置
-\input{ustcsetup}
+\input{swuthesis/swusetup}
 
 
 \begin{document}
-
 \maketitle
 \copyrightpage
 
 \frontmatter
-\include{chapters/innovations}  % 博士学位论文的创新性说明
-\include{chapters/abstract}
+\include{swuthesis/chapters/abstract}
+\input{swuthesis/chapters/notation}
 \tableofcontents
 % \listoffigures
 % \listoftables
-\listoffiguresandtables
-% \include{chapters/notation}
 
 \mainmatter
-\include{chapters/intro}
-\include{chapters/floats}
-\include{chapters/math}
-\include{chapters/citations}
+\onehalfspacing
+\input{swuthesis/chapters/intro}
+\input{swuthesis/chapters/floats}
+\input{swuthesis/chapters/math}
+\input{swuthesis/chapters/citations}
 
-\bibliography{bib/ustc}  % 参考文献使用 BibTeX 编译
+\bibliography{swuthesis/bib/swu}  % 参考文献使用 BibTeX 编译
 % \printbibliography       % 参考文献使用 BibLaTeX 编译
 
 \appendix
-\include{chapters/complementary}
+\input{swuthesis/chapters/complementary}
 
 \backmatter
-\include{chapters/acknowledgements}
-\include{chapters/achievements}
+\input{swuthesis/chapters/acknowledgements}
+\input{swuthesis/chapters/publications}
 
 \end{document}

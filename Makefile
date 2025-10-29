@@ -1,53 +1,31 @@
 MAIN = main
-NAME = ustcthesis
-CLSFILES = $(NAME).cls
-BSTFILES = $(NAME)-numerical.bst $(NAME)-authoryear.bst $(NAME)-bachelor.bst
+# 使用西南大学模板
+SWU_MAIN = swuthesis
+SWU_CLSFILES = swuthesis/swuthesis.cls
+SWU_BSTFILES = swuthesis/vendor/swuthesis-*.bst
 
 SHELL = bash
 LATEXMK = latexmk -xelatex
-VERSION = $(shell cat $(NAME).cls | egrep -o "\\ustcthesisversion{[0-9.]+[0-9a-z.-]*" \
-	  | egrep -o "[0-9.]+[0-9a-z.-]*")
 TEXMF = $(shell kpsewhich --var-value TEXMFHOME)
 
-.PHONY : main cls doc test save clean all install distclean zip FORCE_MAKE
+.PHONY : main swu clean cleanall FORCE_MAKE
 
+# 默认编译西南大学模板
 main : $(MAIN).pdf
 
-all : main doc
-
-cls : $(CLSFILES) $(BSTFILES)
-
-doc : $(NAME)-doc.pdf
-
-$(MAIN).pdf : $(MAIN).tex $(CLSFILES) $(BSTFILES) FORCE_MAKE
+# 编译西南大学论文
+$(MAIN).pdf : $(MAIN).tex $(SWU_CLSFILES) $(SWU_BSTFILES) FORCE_MAKE
 	$(LATEXMK) $<
 
-$(NAME)-doc.pdf : $(NAME)-doc.tex FORCE_MAKE
-	$(LATEXMK) $<
+# 编译西南大学模板文档
+swudoc : swuthesis/swuthesis-doc.pdf
 
-test:
-	l3build check
-
-save:
-	bash test/save.sh
+swuthesis/swuthesis-doc.pdf : swuthesis/swuthesis-doc.tex FORCE_MAKE
+	cd swuthesis && $(LATEXMK) swuthesis-doc.tex
 
 clean : FORCE_MAKE
-	$(LATEXMK) -c $(MAIN).tex $(NAME)-doc.tex
+	$(LATEXMK) -c $(MAIN).tex
 
-cleanall :
-	$(LATEXMK) -C $(MAIN).tex $(NAME)-doc.tex
-
-install : cls doc
-	mkdir -p $(TEXMF)/{doc,source,tex}/latex/$(NAME)
-	mkdir -p $(TEXMF)/bibtex/bst/$(NAME)
-	cp $(BSTFILES) $(TEXMF)/bibtex/bst/$(NAME)
-	cp $(NAME)-doc.pdf $(TEXMF)/doc/latex/$(NAME)/$(NAME).pdf
-	cp $(CLSFILES) $(TEXMF)/tex/latex/$(NAME)
-
-zip : main doc
-	ln -sf . $(NAME)
-	zip -r $(NAME)-v$(VERSION).zip $(NAME)/{*.md,LICENSE,\
-	$(NAME)-doc.tex,$(NAME)-doc.pdf,$(NAME).cls,*.bst,*.bbx,*.cbx,figures,\
-	$(MAIN).tex,ustcsetup.tex,chapters,bib,$(MAIN).pdf,\
-	latexmkrc,Makefile}
-	rm $(NAME)
+cleanall : FORCE_MAKE
+	$(LATEXMK) -C $(MAIN).tex
+	$(LATEXMK) -C swuthesis/swuthesis-doc.tex
