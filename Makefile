@@ -8,7 +8,7 @@ SHELL = bash
 LATEXMK = latexmk -xelatex
 TEXMF = $(shell kpsewhich --var-value TEXMFHOME)
 
-.PHONY : main swu clean cleanall FORCE_MAKE
+.PHONY : main swu clean cleanall version FORCE_MAKE
 
 # 默认编译西南大学模板
 main : $(MAIN).pdf
@@ -31,7 +31,13 @@ cleanall : FORCE_MAKE
 	$(LATEXMK) -C swuthesis/swuthesis-doc.tex
 
 # 获取版本号（从 swuthesis.cls 或 git tag）
+# 优先级：1. swuthesis.cls 中的版本号 2. 最新的 git tag 3. "dev"
 VERSION = $(shell grep -o 'swuthesisversion{[^}]*' swuthesis/swuthesis.cls | sed 's/swuthesisversion{//' | head -1 || git describe --tags --always --dirty 2>/dev/null | sed 's/^v//' || echo "dev")
+
+# 显示当前版本号
+version:
+	@echo "当前版本号: $(VERSION)"
+	@echo "来源: $$(if grep -q 'swuthesisversion{' swuthesis/swuthesis.cls 2>/dev/null; then echo 'swuthesis.cls'; elif git describe --tags --exact-match HEAD 2>/dev/null; then echo 'git tag'; else echo '默认 (dev)'; fi)"
 
 # 生成发布用的 zip 文件
 zip : clean
